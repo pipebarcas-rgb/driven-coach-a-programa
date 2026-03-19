@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach a Programa — Driven · Felipe Bartsch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1F8C5A;
+    --green-dark: #166944;
+    --green-glow: rgba(31,140,90,0.15);
+    --dark: #0C0C0C;
+    --dark2: #111111;
+    --dark3: #181818;
+    --dark4: #222222;
+    --light: #F0EDE8;
+    --muted: #777;
+    --white: #FFFFFF;
+    --red-off: #C0392B;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ── STRIP ── */
+  .strip {
+    background: var(--green);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 9px 0;
+    margin: 0 -20px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 56px 0 40px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dark3);
+    border: 1px solid var(--dark4);
+    border-radius: 40px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .brand-badge span { color: var(--light); font-weight: 600; }
+  .brand-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; }
+
+  .headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(40px, 9vw, 66px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 22px;
+  }
+  .headline em { color: var(--green); font-style: normal; }
+
+  .subhead {
+    font-size: 17px;
+    color: #A8A09A;
+    max-width: 500px;
+    margin-bottom: 36px;
+    line-height: 1.55;
+  }
+  .subhead strong { color: var(--light); font-weight: 600; }
+
+  .service-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--dark3);
+    border: 1px solid #2A2A2A;
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 14px;
+    color: var(--light);
+    margin-bottom: 38px;
+  }
+  .service-pill strong { color: var(--green); }
+
+  /* ── CTA ── */
+  .btn-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--green);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 18px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 28px rgba(31,140,90,0.3);
+  }
+  .btn-wa:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 8px 36px rgba(31,140,90,0.4); }
+  .btn-wa:active { transform: translateY(0); }
+
+  .cta-micro {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #252525, transparent);
+    margin: 44px 0;
+  }
+
+  /* ── SECTION LABEL ── */
+  .sec-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+
+  /* ── TRANSFORM ── */
+  .transform-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+  .transform-box {
+    background: var(--dark3);
+    border-radius: 8px;
+    padding: 18px 16px;
+  }
+  .transform-box.a { border-top: 2px solid #333; }
+  .transform-box.b { border-top: 2px solid var(--green); }
+  .box-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .transform-box.a .box-label { color: var(--muted); }
+  .transform-box.b .box-label { color: var(--green); }
+  .transform-box ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .transform-box ul li { font-size: 14px; color: #A0988F; line-height: 1.35; }
+  .transform-box.b ul li { color: var(--light); }
+  .transform-arrow {
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--green);
+    font-weight: 900;
+    text-align: center;
+  }
+
+  /* ── ENTREGABLES ── */
+  .includes-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #1E1E1E;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .include-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--dark2);
+    border-bottom: 1px solid #1A1A1A;
+  }
+  .include-row:last-child { border-bottom: none; }
+  .include-icon {
+    width: 34px;
+    height: 34px;
+    background: var(--green-glow);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .include-text { font-size: 15px; color: var(--light); line-height: 1.35; }
+  .include-text span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── PARA QUIÉN ── */
+  .forwho-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .forwho-box {
+    background: var(--dark3);
+    border-radius: 8px;
+    padding: 18px 16px;
+  }
+  .forwho-box.yes { border-top: 2px solid var(--green); }
+  .forwho-box.no { border-top: 2px solid #444; }
+  .fwlabel {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .forwho-box.yes .fwlabel { color: var(--green); }
+  .forwho-box.no .fwlabel { color: var(--muted); }
+  .forwho-box ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .forwho-box ul li { font-size: 13.5px; color: #A0988F; line-height: 1.35; }
+
+  /* ── PRECIO ── */
+  .price-box {
+    background: var(--dark3);
+    border: 1px solid #252525;
+    border-radius: 10px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .price-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .price-amount {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 58px;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-amount em { color: var(--green); font-style: normal; }
+  .price-note { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .price-context {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .price-spots {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(31,140,90,0.1);
+    border: 1px solid rgba(31,140,90,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.8s infinite; flex-shrink: 0; }
+
+  /* ── PROCESO ── */
+  .proceso-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .proceso-list::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green), #1a1a1a);
+  }
+  .proceso-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    align-items: flex-start;
+    position: relative;
+  }
+  .proceso-num {
+    width: 38px;
+    height: 38px;
+    background: var(--dark3);
+    border: 1px solid #2A2A2A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--green);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .proceso-content strong {
+    display: block;
+    font-size: 15px;
+    color: var(--light);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .proceso-content span { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+  /* ── GARANTÍA ── */
+  .guarantee {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--dark3);
+    border: 1px solid #252525;
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 20px 18px;
+    font-size: 14px;
+    color: #A0988F;
+    line-height: 1.55;
+  }
+  .guarantee-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .guarantee strong { color: var(--light); font-weight: 600; display: block; margin-bottom: 5px; font-size: 15px; }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: 2px; }
+  .faq-item {
+    background: var(--dark2);
+    border: 1px solid #1E1E1E;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--light);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.12s;
+  }
+  .faq-q:hover { color: var(--green); }
+  .faq-icon { font-size: 18px; color: var(--green); flex-shrink: 0; transition: transform 0.2s; }
+  .faq-a { font-size: 14px; color: #888; padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.25s ease, padding 0.2s; line-height: 1.55; }
+  .faq-item.open .faq-a { max-height: 220px; padding: 0 18px 16px; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  /* ── CASO MARQUIS ── */
+  .caso {
+    background: var(--dark3);
+    border: 1px solid #252525;
+    border-radius: 10px;
+    padding: 24px 22px;
+  }
+  .caso-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .caso-avatar {
+    width: 44px;
+    height: 44px;
+    background: var(--green-glow);
+    border: 1px solid rgba(31,140,90,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .caso-name { font-weight: 600; font-size: 15px; color: var(--light); }
+  .caso-city { font-size: 12px; color: var(--muted); }
+  .caso-quote {
+    font-size: 15px;
+    color: #B0A8A0;
+    line-height: 1.6;
+    border-left: 2px solid var(--green);
+    padding-left: 14px;
+    font-style: italic;
+  }
+  .caso-result {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(31,140,90,0.1);
+    border: 1px solid rgba(31,140,90,0.2);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── VALUE LIST ── */
+  .value-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .value-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 16px;
+    color: var(--light);
+    line-height: 1.4;
+  }
+  .value-list li::before {
+    content: '▸';
+    color: var(--green);
+    font-size: 13px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid #191919;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.85); } }
+
+  .anim-1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .anim-2 { animation: fadeUp 0.5s 0.2s ease both; }
+  .anim-3 { animation: fadeUp 0.5s 0.3s ease both; }
+
+  @media (max-width: 480px) {
+    .transform-grid { grid-template-columns: 1fr; }
+    .transform-arrow { transform: rotate(90deg); }
+    .forwho-grid { grid-template-columns: 1fr; }
+    .headline { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="strip">Driven · Coach a Programa · Cupos limitados</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="brand-badge">
+      <span class="brand-dot"></span>
+      <span>Felipe Bartsch</span> &nbsp;·&nbsp; Driven · Puerto Montt, Chile
+    </div>
+
+    <h1 class="headline">
+      Dejas de cobrar<br>por clase y empiezas<br>a vender un<br><em>programa.</em><br>En 4 semanas.
+    </h1>
+
+    <p class="subhead">
+      Acompañamiento para coaches independientes de básquet.<br>
+      <strong>Construimos tu oferta, tu landing y tu sistema de ventas juntos. Vos solo tenés que ejecutar.</strong>
+    </p>
+
+    <div class="service-pill">
+      🏀 Servicio DWY &nbsp;·&nbsp; <strong>4 semanas · 3 cupos disponibles</strong>
+    </div>
+
+    <div class="anim-1">
+      <a href="https://wa.me/56961171595?text=Hola%20Felipe%2C%20quiero%20info%20sobre%20Coach%20a%20Programa" class="btn-wa" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quiero hablar con Felipe
+      </a>
+      <p class="cta-micro">Sin formularios · Respondo el mismo día</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- TRANSFORMACIÓN -->
+  <section class="anim-2">
+    <p class="sec-label">Antes y después</p>
+    <div class="transform-grid">
+      <div class="transform-box a">
+        <p class="box-label">Hoy</p>
+        <ul>
+          <li>Cobrás por sesión, sin certeza de lo que sigue</li>
+          <li>No tenés cómo explicar bien lo que ofrecés</li>
+          <li>Cada alumno es una negociación distinta</li>
+        </ul>
+      </div>
+      <div class="transform-arrow">→</div>
+      <div class="transform-box b">
+        <p class="box-label">En 4 semanas</p>
+        <ul>
+          <li>Programa definido con precio claro</li>
+          <li>Landing lista para compartir</li>
+          <li>Sistema para vender por WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CASO MARQUIS -->
+  <section>
+    <p class="sec-label">Caso real</p>
+    <div class="caso">
+      <div class="caso-header">
+        <div class="caso-avatar">🏀</div>
+        <div>
+          <div class="caso-name">Marquis</div>
+          <div class="caso-city">Coach de básquet · Puerto Montt</div>
+        </div>
+      </div>
+      <p class="caso-quote">
+        "No sabía qué ofrecer ni cómo cobrarlo. Felipe me dio un orden y solo tuve que hacer lo que me dijo."
+      </p>
+      <div class="caso-result">
+        ✓ Cerró múltiples cupos en su primer sprint de 14 días
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- POR QUÉ FUNCIONA -->
+  <section>
+    <p class="sec-label">Por qué funciona</p>
+    <ul class="value-list">
+      <li>No te doy información genérica — construimos tu oferta específica desde cero.</li>
+      <li>Tenés acceso directo a mí por WhatsApp durante las 4 semanas. Sin esperar.</li>
+      <li>Al final tenés todo listo para salir a vender, no una carpeta de apuntes.</li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <!-- QUÉ INCLUYE -->
+  <section>
+    <p class="sec-label">Qué incluye</p>
+    <div class="includes-list">
+      <div class="include-row">
+        <div class="include-icon">🔍</div>
+        <div class="include-text">
+          Sesión de diagnóstico inicial
+          <span>Definimos tu avatar, tu oferta y tu precio antes de construir nada</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">📄</div>
+        <div class="include-text">
+          Oferta estructurada en 1 página
+          <span>Nombre, duración, precio, entregables, para quién es</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">🌐</div>
+        <div class="include-text">
+          Landing page publicable
+          <span>Lista para compartir por WhatsApp o Instagram</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">💬</div>
+        <div class="include-text">
+          Guiones de WhatsApp
+          <span>Script de diagnóstico y cierre para convertir interesados en alumnos</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">🖼️</div>
+        <div class="include-text">
+          Flyer para difusión
+          <span>Para mandar a grupos de WhatsApp y difundir el programa</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">📱</div>
+        <div class="include-text">
+          Ideas de contenido para historias de Instagram
+          <span>Para activar tu audiencia antes y durante el lanzamiento</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">🗓️</div>
+        <div class="include-text">
+          Plan de lanzamiento de 14 días
+          <span>Qué hacer cada día para cerrar los primeros cupos</span>
+        </div>
+      </div>
+      <div class="include-row">
+        <div class="include-icon">📲</div>
+        <div class="include-text">
+          Acompañamiento por WhatsApp — 4 semanas
+          <span>Acceso directo. Respondo dudas en el momento que aparecen</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PARA QUIÉN -->
+  <section>
+    <p class="sec-label">¿Es para vos?</p>
+    <div class="forwho-grid">
+      <div class="forwho-box yes">
+        <p class="fwlabel">✓ Sí, si...</p>
+        <ul>
+          <li>Sos coach independiente de básquet</li>
+          <li>Cobrás por sesión y querés cambiar eso</li>
+          <li>Tenés alumnos pero no tenés sistema</li>
+          <li>Estás dispuesto a ejecutar en 4 semanas</li>
+        </ul>
+      </div>
+      <div class="forwho-box no">
+        <p class="fwlabel">✗ No, si...</p>
+        <ul>
+          <li>Sos academia o club con estructura institucional</li>
+          <li>Buscás solo consejos o información general</li>
+          <li>No podés lanzar en el próximo mes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CÓMO FUNCIONA EL PROCESO -->
+  <section>
+    <p class="sec-label">Cómo funciona</p>
+    <div class="proceso-list">
+      <div class="proceso-item">
+        <div class="proceso-num">1</div>
+        <div class="proceso-content">
+          <strong>Me escribís por WhatsApp</strong>
+          <span>Hablamos 15 minutos para ver si esto es para vos. Sin compromiso.</span>
+        </div>
+      </div>
+      <div class="proceso-item">
+        <div class="proceso-num">2</div>
+        <div class="proceso-content">
+          <strong>Sesión de diagnóstico</strong>
+          <span>Definimos tu avatar, oferta y precio. Acá empieza la claridad.</span>
+        </div>
+      </div>
+      <div class="proceso-item">
+        <div class="proceso-num">3</div>
+        <div class="proceso-content">
+          <strong>Construimos todo en 4 semanas</strong>
+          <span>Vos ejecutás. Yo te digo exactamente qué hacer y cuándo.</span>
+        </div>
+      </div>
+      <div class="proceso-item">
+        <div class="proceso-num">4</div>
+        <div class="proceso-content">
+          <strong>Lanzás tu programa</strong>
+          <span>Con landing lista, guiones en mano y plan de 14 días para cerrar los primeros cupos.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PRECIO -->
+  <section>
+    <div class="price-box">
+      <p class="price-label">Inversión</p>
+      <div class="price-amount"><em>$200.000</em></div>
+      <p class="price-note">CLP · Pago único · Transferencia bancaria</p>
+      <p class="price-context">Precio de validación — sube en la siguiente cohorte</p>
+      <div class="price-spots">
+        <span class="pulse"></span>
+        3 cupos disponibles
+      </div>
+      <a href="https://wa.me/56961171595?text=Hola%20Felipe%2C%20quiero%20reservar%20mi%20cupo%20en%20Coach%20a%20Programa" class="btn-wa" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quiero mi cupo
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- GARANTÍA -->
+  <section>
+    <div class="guarantee">
+      <span class="guarantee-icon">🛡️</span>
+      <div>
+        <strong>Mi compromiso</strong>
+        Si terminamos las 4 semanas y no tenés una oferta clara, una landing publicable y un plan de lanzamiento listo para usar — te devuelvo el dinero. Sin preguntas.
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FAQ -->
+  <section>
+    <p class="sec-label">Preguntas frecuentes</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ¿Necesito tener muchos alumnos o seguidores?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          No. De hecho, este proceso está pensado para coaches que todavía no tienen sistema. Si ya tenés algunos alumnos con quienes trabajás informalmente, es suficiente para arrancar.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ¿Qué pasa si no puedo dedicarle tiempo las 4 semanas?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          El acompañamiento es por WhatsApp, no hay horarios fijos. Podés trabajar a tu ritmo. Lo que sí es necesario es que seas capaz de ejecutar las tareas que te indique cada semana.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ¿Esto funciona si no soy de básquet?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          El sistema está diseñado para coaches de básquet independientes. Si trabajás en otro deporte o actividad, escribime igual y conversamos — puede que igual tenga sentido.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ¿Cómo confirmo mi cupo?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Me escribís por WhatsApp, hablamos brevemente para confirmar que es para vos y te mando los datos de pago. El cupo queda reservado cuando llega la transferencia. Todo toma menos de 24 horas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CTA FINAL -->
+  <section style="text-align:center;">
+    <p class="sec-label" style="text-align:center;">Siguiente paso</p>
+    <p style="font-size:15px; color:#888; margin-bottom:26px; max-width:420px; margin-left:auto; margin-right:auto; line-height:1.6;">
+      No hay formulario. Escribime directo, hablamos 15 minutos y sabés si esto es para vos.
+    </p>
+    <a href="https://wa.me/56961171595?text=Hola%20Felipe%2C%20quiero%20info%20sobre%20Coach%20a%20Programa" class="btn-wa" target="_blank" rel="noopener" style="max-width:420px; margin:0 auto;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Escribirle a Felipe
+    </a>
+    <p class="cta-micro" style="margin-top:10px;">Sin compromiso · Respondo hoy</p>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 Felipe Bartsch · Driven · Puerto Montt, Chile</p>
+    <p style="margin-top:4px;">Coach a Programa · Sistema DWY para coaches independientes de básquet</p>
+  </footer>
+
+</div>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+
+</body>
+</html>
