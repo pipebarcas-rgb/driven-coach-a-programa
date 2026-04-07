@@ -1,0 +1,562 @@
+[index.html](https://github.com/user-attachments/files/26550563/index.html)
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancha Llena — Driven Coach</title>
+<meta name="description" content="Tu próximo grupo de entrenamiento lleno y pagado antes de arrancar. 8–12 personas en 2–3 semanas. Sin publicidad. Sin cursos. Solo básquet.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0C0F0D;
+  --surface: #141A16;
+  --green: #1F8C5A;
+  --green-dim: rgba(31,140,90,0.12);
+  --green-border: rgba(31,140,90,0.28);
+  --text: #E8F0EC;
+  --muted: #7a9c83;
+  --dim: #3a5a43;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding: 4rem 1.4rem 3.5rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(42px, 12vw, 68px);
+  font-weight: 800;
+  line-height: 0.92;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+.hero-title span { color: var(--green); }
+
+.hero-sub {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+  max-width: 440px;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.hero-nota {
+  font-size: 12px;
+  color: var(--dim);
+  margin-bottom: 2rem;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--green);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.cta-btn:hover { background: #197a4d; }
+
+.hero-cupos {
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 0.8rem;
+}
+
+/* ─── COMO FUNCIONA ─── */
+.como {
+  background: var(--surface);
+  padding: 2.8rem 1.4rem;
+}
+
+.como-inner { max-width: 580px; margin: 0 auto; }
+
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 1.2rem;
+}
+
+.steps { display: flex; flex-direction: column; gap: 0; }
+
+.step {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  align-items: flex-start;
+}
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1;
+  min-width: 32px;
+  padding-top: 2px;
+}
+
+.step-body {}
+
+.step-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.step-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ─── CASO MARQUIS ─── */
+.caso {
+  padding: 2.8rem 1.4rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.caso-box {
+  background: var(--green-dim);
+  border: 0.5px solid var(--green-border);
+  border-radius: 12px;
+  padding: 1.6rem 1.4rem;
+}
+
+.caso-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 1rem;
+}
+
+.caso-stat {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(38px, 10vw, 52px);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.caso-stat-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+
+.caso-detail {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  padding-top: 1rem;
+}
+
+.caso-detail strong { color: var(--text); }
+
+/* ─── PARA QUIEN ─── */
+.para-quien {
+  background: var(--surface);
+  padding: 2.8rem 1.4rem;
+}
+.para-quien-inner { max-width: 580px; margin: 0 auto; }
+
+.check-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.6rem; }
+
+.check-item {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  align-items: flex-start;
+}
+.check-item .mark { color: var(--green); flex-shrink: 0; font-weight: 700; }
+
+.no-list { margin-top: 1.4rem; }
+.no-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.7rem;
+}
+.no-item {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 13px;
+  color: #4a6a54;
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+  align-items: flex-start;
+}
+.no-item .mark { flex-shrink: 0; }
+
+/* ─── PRECIO ─── */
+.precio {
+  padding: 2.8rem 1.4rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.precio-box {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.6rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.precio-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.precio-row:last-child { border-bottom: none; }
+
+.precio-campo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.precio-valor {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+}
+
+.precio-valor.green { color: var(--green); }
+
+.garantia-box {
+  background: var(--green-dim);
+  border: 0.5px solid var(--green-border);
+  border-radius: 10px;
+  padding: 1.2rem 1.3rem;
+  margin-bottom: 1.6rem;
+}
+
+.garantia-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--green);
+  margin-bottom: 0.4rem;
+}
+
+.garantia-text {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.cta-final {
+  display: block;
+  text-align: center;
+  background: var(--green);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 1.1rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.cta-final:hover { background: #197a4d; }
+
+.cupos-finales {
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 0.7rem;
+}
+
+/* ─── QUIEN SOY ─── */
+.quien {
+  background: var(--surface);
+  padding: 2.8rem 1.4rem;
+}
+.quien-inner {
+  max-width: 580px;
+  margin: 0 auto;
+  display: flex;
+  gap: 1.4rem;
+  align-items: flex-start;
+}
+
+.quien-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #1F8C5A22;
+  border: 1.5px solid var(--green-border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.quien-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% center;
+}
+
+.quien-body {}
+.quien-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.quien-rol {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.7rem;
+}
+.quien-bio {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 2rem 1.4rem;
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+  border-top: 0.5px solid rgba(255,255,255,0.04);
+}
+
+footer a { color: var(--dim); text-decoration: none; }
+footer a:hover { color: var(--muted); }
+
+@media (max-width: 400px) {
+  .quien-inner { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-eyebrow">Driven Coach · Puerto Montt</div>
+  <h1 class="hero-title">Tu grupo<br><span>lleno y pagado</span><br>antes de arrancar</h1>
+  <p class="hero-sub">
+    <strong>8–12 personas en 2–3 semanas.</strong><br>
+    Felipe hace todo el marketing. Vos solo entrenás y respondés mensajes con scripts listos.
+  </p>
+  <div class="hero-nota">Sin entrada. Sin cursos. Sin publicidad que tengas que manejar.</div>
+  <a href="https://wa.me/56961171595?text=Hola%20Felipe%2C%20vi%20lo%20de%20Cancha%20Llena%20y%20quiero%20saber%20si%20aplico" class="cta-btn">
+    Quiero saber si aplico →
+  </a>
+  <div class="hero-cupos">Solo 3 cupos disponibles en esta fase</div>
+</div>
+
+<!-- ─── COMO FUNCIONA ─── -->
+<div class="como">
+  <div class="como-inner">
+    <div class="section-label">Cómo funciona</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Armamos la oferta de tu grupo</div>
+          <div class="step-desc">Definimos el nombre, precio, días, lugar y qué incluye. Una sola página. Clara. Lista para vender.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Felipe corre los ads en Meta</div>
+          <div class="step-desc">Creo la imagen y el copy. Lanzo la campaña apuntada a tu zona. Los leads llegan directo a tu WhatsApp con un mensaje pre-cargado. Vos no tocás nada.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Respondés con los scripts que te mando</div>
+          <div class="step-desc">Tenés 4 scripts listos: bienvenida, precio, seguimiento y cierre. No improvisás. No sabés qué decir. Solo copiás y pegás.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">El grupo se llena. Empieza el entrenamiento.</div>
+          <div class="step-desc">Primer pago = cupo confirmado. Cuando tenés los 8–12 confirmados, se cierra la inscripción y arrancás.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── CASO MARQUIS ─── -->
+<div class="caso">
+  <div class="section-label">Caso real</div>
+  <div class="caso-box">
+    <div class="caso-label">Marquis Johnson · Puerto Montt</div>
+    <div class="caso-stat">$240.000 CLP</div>
+    <div class="caso-stat-sub">en 7 días — sin publicidad</div>
+    <div class="caso-detail">
+      Coach de básquet en Puerto Montt. Entrenaba alumnos de forma informal. <strong>Sin ads, solo con landing y scripts</strong>, lanzó su primer grupo estructurado y cobró $240.000 CLP en la primera semana.
+    </div>
+  </div>
+</div>
+
+<!-- ─── PARA QUIEN ─── -->
+<div class="para-quien">
+  <div class="para-quien-inner">
+
+    <div class="section-label">Este servicio es para vos si...</div>
+    <div class="check-list">
+      <div class="check-item"><span class="mark">✓</span>Ya entrenás gente y cobras por sesión ($15.000–$30.000 CLP)</div>
+      <div class="check-item"><span class="mark">✓</span>Tenés entre 3 y 20 alumnos activos</div>
+      <div class="check-item"><span class="mark">✓</span>Tenés WhatsApp o Instagram con algo de actividad</div>
+      <div class="check-item"><span class="mark">✓</span>Querés llenar un grupo sin depender del boca a boca</div>
+      <div class="check-item"><span class="mark">✓</span>No querés aprender marketing — solo entrenar</div>
+    </div>
+
+    <div class="no-list">
+      <div class="no-label">No aplica si...</div>
+      <div class="no-item"><span class="mark">—</span>Sos coach pero todavía no tenés alumnos que te paguen</div>
+      <div class="no-item"><span class="mark">—</span>No estás en Chile o Argentina</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── PRECIO ─── -->
+<div class="precio">
+  <div class="section-label">La oferta</div>
+
+  <div class="precio-box">
+    <div class="precio-row">
+      <div class="precio-campo">Entrada</div>
+      <div class="precio-valor green">$0</div>
+    </div>
+    <div class="precio-row">
+      <div class="precio-campo">Costo de ads (Meta)</div>
+      <div class="precio-valor">Felipe los pone</div>
+    </div>
+    <div class="precio-row">
+      <div class="precio-campo">Cobro cuando hay resultado</div>
+      <div class="precio-valor">25% de lo que facture el grupo</div>
+    </div>
+    <div class="precio-row">
+      <div class="precio-campo">Duración del lanzamiento</div>
+      <div class="precio-valor">2–3 semanas</div>
+    </div>
+    <div class="precio-row">
+      <div class="precio-campo">Cupos disponibles</div>
+      <div class="precio-valor green">3 coaches — fase validación</div>
+    </div>
+  </div>
+
+  <div class="garantia-box">
+    <div class="garantia-title">Garantía total</div>
+    <div class="garantia-text">
+      Si el grupo no se llena, no me pagás nada. Felipe absorbe el costo de los ads. Sin resultado, sin cobro.
+    </div>
+  </div>
+
+  <a href="https://wa.me/56961171595?text=Hola%20Felipe%2C%20vi%20lo%20de%20Cancha%20Llena%20y%20quiero%20saber%20si%20aplico" class="cta-final">
+    Escribirme por WhatsApp →
+  </a>
+  <div class="cupos-finales">3 cupos · Se cierran cuando se completan</div>
+</div>
+
+<!-- ─── QUIEN SOY ─── -->
+<div class="quien">
+  <div class="quien-inner">
+    <div class="quien-avatar">
+      <img src="felipe.jpg" alt="Felipe Bartsch">
+    </div>
+    <div class="quien-body">
+      <div class="quien-name">Felipe Bartsch</div>
+      <div class="quien-rol">Driven Coach · Puerto Montt</div>
+      <div class="quien-bio">
+        Ayudo a coaches de básquet a llenar sus grupos sin que tengan que aprender marketing. Yo hago los ads, la landing y los scripts. El coach solo entrena.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>Driven Coach · Puerto Montt, Chile</div>
+  <div style="margin-top: 0.3rem;">
+    <a href="https://wa.me/56961171595">WhatsApp</a>
+    &nbsp;·&nbsp;
+    <a href="mailto:hola@drivencoach.cl">hola@drivencoach.cl</a>
+  </div>
+</footer>
+
+</body>
+</html>
